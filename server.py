@@ -8,7 +8,7 @@ import flask
 
 # pymongo
 import pymongo
-from pymongo.objectid import ObjectId
+from bson import ObjectId
 
 # creating new Flask instance
 app = flask.Flask(__name__)
