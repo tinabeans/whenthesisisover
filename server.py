@@ -9,6 +9,7 @@ import flask
 # pymongo
 import pymongo
 from bson import ObjectId
+import json
 
 # creating new Flask instance
 app = flask.Flask(__name__)
@@ -20,11 +21,8 @@ db = connection.whenthesisisover
 app.secret_key = '''nTi!"2Oq#j2WdnUsQziTn52y8xGfZl:"MH*H|`yVClNLA4UG'GIvq1qc%Gk}vu<'''
 
 
-# --------------------------------------------
+def fetchRandomIdea():
 
-@app.route('/')
-def index():
-	
 	# grab a random idea from the db
 	
 	totalIdeas = db.ideas.count()
@@ -32,7 +30,15 @@ def index():
 	
 	idea = db.ideas.find_one({}, skip=randomNum)
 	
-	return flask.render_template("index.html", idea=idea)
+	return idea
+
+
+# --------------------------------------------
+
+@app.route('/')
+def index():
+	
+	return flask.render_template("index.html", idea=fetchRandomIdea())
 	
 
 # --------------------------------------------
@@ -42,12 +48,11 @@ def fetchNewIdea():
 	
 	# grab a random idea from the db
 	
-	totalIdeas = db.ideas.count()
-	randomNum = random.randint(0, totalIdeas - 1)
+	idea = fetchRandomIdea()
 	
-	idea = db.ideas.find_one({}, skip=randomNum)
+	del idea['_id']
 	
-	return idea['idea']
+	return json.dumps(idea)
 
 
 	
@@ -67,7 +72,8 @@ def postNewIdea():
 	idea = {
 		'name' : data['name'],
 		'email' : data['email'],
-		'idea' : data['idea']
+		'idea' : data['idea'],
+		'class' : data['class']
 	}
 	
 	db.ideas.insert(idea)

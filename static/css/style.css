@@ -94,3 +94,9 @@ textarea {
 	height: 50px;
 	width: 450px;
 }
+
+.from {
+	font: 20px/24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-transform: uppercase;
+	margin-top: 10px;
+}

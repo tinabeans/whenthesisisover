@@ -21,10 +21,11 @@ $(document).ready(function(){
 		$.ajax({
 			url : '/fetchNewIdea',
 			success : function(data){
-				console.log(data);
 				
 				$('#theIdea').fadeOut(200, function(){
-					$('#ideaText').html(data);
+					var idea = JSON.parse(data);
+					$('#ideaText').html(idea.idea);
+					$('#class').html(idea.class);
 					$('#theIdea').fadeIn(300);
 				})
 			}
@@ -61,6 +62,8 @@ $(document).ready(function(){
 		<h1 id="theIdea">
 			<a href="" id="fetchNewIdeaLink">I will <span id="ideaText">{{ idea.idea }}</span></a>
 		</h1>
+		
+		<p class="from">From the class of <span id="class">{{ idea.class }}</span></p>
 		
 		<p class="you"><a href="add">What are you going to do when thesis is over?</a></p>
 		
